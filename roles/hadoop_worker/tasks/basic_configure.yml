@@ -1,0 +1,13 @@
+---
+- name: install java jdk8
+  apt:
+    name: openjdk-8-jdk
+
+- name: chekc java environment
+  shell: grep 'export JAVA_HOME' /root/.bashrc  | cat
+  register: java_set
+
+- name: set java environment
+  shell: sed -i '1i export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/' /root/.bashrc 
+  when: java_set.stdout == ""
+

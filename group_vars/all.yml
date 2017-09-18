@@ -1,0 +1,7 @@
+---
+# check hadoop version in http://apache.stu.edu.tw/hadoop/common/stable/ 
+# this ansible only support hadoop version > 2.7
+hadoop_version: 2.7.4
+dfs_namenode_name_dir: /tmp/hadoop-root
+dfs_datanode_data_dir: /tmp/hadoop-root
+spark_version: 2.2.0

@@ -1,0 +1,49 @@
+---
+- name: setup master 
+  hosts: master
+  roles:
+    - hadoop_master 
+
+- name: setup hadoop slave
+  hosts: worker
+  roles:
+    - hadoop_worker
+  tasks:
+    - copy:
+        src: /opt/hadoop-{{ hadoop_version }}.tgz
+        dest: /tmp/ 
+        owner: root
+        group: root
+        force: no
+    - unarchive:
+        src: /tmp/hadoop-{{ hadoop_version }}.tgz
+        dest: /opt/ 
+
+- name: run hadoop
+  hosts: master
+  tasks:
+    - shell: /opt/hadoop-{{ hadoop_version }}/bin/hdfs namenode -format
+    - shell: /opt/hadoop-{{ hadoop_version }}/sbin/start-dfs.sh
+
+- name: setup spark master 
+  hosts: master
+  roles:
+    - spark_master 
+
+- name: setup spark slave
+  hosts: worker
+  tasks:
+    - copy:
+        src: /opt/spark-{{ spark_version }}.tgz
+        dest: /tmp/ 
+        owner: root
+        group: root
+        force: no
+    - unarchive:
+        src: /tmp/spark-{{ spark_version }}.tgz
+        dest: /opt/ 
+
+- name: run spark 
+  hosts: master
+  tasks:
+    - shell: /opt/spark-{{ spark_version }}-bin-hadoop2.7/sbin/start-all.sh
