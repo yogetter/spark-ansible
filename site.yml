@@ -9,14 +9,8 @@
   roles:
     - hadoop_worker
   tasks:
-    - copy:
-        src: /opt/hadoop-{{ hadoop_version }}.tgz
-        dest: /tmp/ 
-        owner: root
-        group: root
-        force: no
     - unarchive:
-        src: /tmp/hadoop-{{ hadoop_version }}.tgz
+        src: /opt/hadoop-{{ hadoop_version }}.tgz
         dest: /opt/ 
 
 - name: run hadoop
@@ -33,14 +27,8 @@
 - name: setup spark slave
   hosts: worker
   tasks:
-    - copy:
-        src: /opt/spark-{{ spark_version }}.tgz
-        dest: /tmp/ 
-        owner: root
-        group: root
-        force: no
     - unarchive:
-        src: /tmp/spark-{{ spark_version }}.tgz
+        src: /opt/spark-{{ spark_version }}.tgz
         dest: /opt/ 
 
 - name: run spark 
